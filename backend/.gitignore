@@ -22,6 +22,9 @@ env/
 .DS_Store
 Thumbs.db
 
+# Senhas
+/config/
+
 # Dependências instaladas (caso use requirements.txt)
 # Não ignore se quer versionar as libs instaladas em requirements.txt
 # site-packages/ 
