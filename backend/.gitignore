@@ -1,0 +1,27 @@
+# Python cache e compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente virtual
+freeflow/  # Ignora todo o venv
+*.env
+venv/
+env/
+
+# Arquivos de log
+*.log
+
+# Configurações de editor/IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos temporários do sistema
+.DS_Store
+Thumbs.db
+
+# Dependências instaladas (caso use requirements.txt)
+# Não ignore se quer versionar as libs instaladas em requirements.txt
+# site-packages/ 
