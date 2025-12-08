@@ -17,24 +17,23 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
 # 🔹 CRUD completo de Customers
 class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-
 
 # 🔹 CRUD completo de Products
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-
 # 🔹 CRUD completo de Orders
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
-
 def home(request):
     return JsonResponse({"status": "Backend funfando"})
+
+def health_check(request):
+    return JsonResponse({"status": "ok"})
