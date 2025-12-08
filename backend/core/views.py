@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+
 
 # Create your views here.
 from rest_framework.viewsets import ModelViewSet
@@ -32,3 +34,7 @@ class ProductViewSet(ModelViewSet):
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+
+def home(request):
+    return JsonResponse({"status": "Backend funfando"})
