@@ -71,7 +71,7 @@ WSGI_APPLICATION = 'freeflow.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.config(default=f"postgres://{DATABASE['USER']}:{DATABASE['PASSWORD']}@{DATABASE['HOST']}:{DATABASE['PORT']}/{DATABASE['NAME']}")
+    'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
 }
 
 
