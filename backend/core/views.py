@@ -33,7 +33,7 @@ class OrderViewSet(ModelViewSet):
     serializer_class = OrderSerializer
 
 def home(request):
-    return JsonResponse({"status": "Backend funfando"})
+    return JsonResponse({"status": "ok"})
 
 def health_check(request):
     return JsonResponse({"status": "ok"})

@@ -1,14 +1,14 @@
-import { Button } from "@/components/ui/button"
+import Login from "@/pages/login"
 
-function App() {
+    function App() {
+        
+        return (
+            <section className="flex flex-col items-center justify-center h-screen bg-gray-300">
+                <div className="flex min-h-svh flex-col items-center justify-center">
+                    <Login />
+                </div>
+            </section>
+        )
+    }
 
-    return (
-        <section className="flex flex-col items-center justify-center h-screen bg-gray-300">
-            <div className="flex min-h-svh flex-col items-center justify-center">
-                <Button className="cursor-pointer text-black" variant="outline" size="lg">Click me</Button>
-            </div>
-        </section>
-    )
-}
-
-export default App
+    export default App
