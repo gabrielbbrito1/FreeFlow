@@ -1,7 +1,6 @@
 from pathlib import Path
-from config.constants import DATABASE
 import os
-import dj_database_url
+import dj_database_url  # pyright: ignore[reportMissingImports]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,7 +68,7 @@ WSGI_APPLICATION = 'freeflow.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import dj_database_url
+
 
 DATABASES = {
     'default': dj_database_url.config(default=f"postgres://{DATABASE['USER']}:{DATABASE['PASSWORD']}@{DATABASE['HOST']}:{DATABASE['PORT']}/{DATABASE['NAME']}")
