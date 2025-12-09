@@ -71,9 +71,10 @@ WSGI_APPLICATION = 'freeflow.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL", "postgresql://gabrielbbrito1:5WtZYLkil6PSwnMAuurLSRZn9y1Dt8tK@dpg-d4rphdkhg0os73d5ol2g-a.virginia-postgres.render.com/freeflow_95sq")
+    )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -126,8 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "core.User"
 
-CORS_ALLOWED_ORIGINS = [
-    "*"
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
