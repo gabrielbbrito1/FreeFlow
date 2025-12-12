@@ -1,71 +1,16 @@
 import React, { useEffect, useState, type ChangeEvent, type FormEvent } from "react"
-import { useNavigate } from "react-router"
+import { LoginForm } from "@/components/login-form"
 
 function Login() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const navigate = useNavigate()
+    // const handleInputChange = (set: React.Dispatch<React.SetStateAction<string>>) => (e: ChangeEvent<HTMLInputElement>) => { set(e.target.value) }
 
-    const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-
-        const url = "http://127.0.0.1:8000/auth/login/"
-
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                }),
-            });
-            const data = await response.json()
-            if (response.ok) {
-                alert('Logado com sucesso')
-                if (data.access) { localStorage.setItem('refreshToken', data.refresh) }
-                navigate('/register')
-            }
-        } catch (error) {
-            alert('Erro ao Logar usuário:' + (error instanceof Error ? ' ' + error.message : ''))
-        }
-    }
-
-    return (
-        <form onSubmit={handleLogin} className="w-full max-w-sm bg-white p-8 rounded-lg shadow-xl">
-
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">E-mail</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                    className="shadow border rounded w-full py-2 px-3 text-gray-700"
-                    required
-                />
+        return (
+            <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+                <div className="w-full max-w-sm md:max-w-4xl">
+                    <LoginForm />
+                </div>
             </div>
-
-            <div className="mb-6">
-                <label className="block text-gray-700 text-sm font-bold mb-2">Senha</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                    className="shadow border rounded w-full py-2 px-3 text-gray-700"
-                    required
-                />
-            </div>
-
-            <button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none w-full"
-            >
-                Logar
-            </button>
-        </form>
-    )
+        )
 }
 
 export default Login;

@@ -36,14 +36,12 @@ class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
-def login(request):
-    return JsonResponse({"status": "ok"})
 
 def health_check(request):
     return JsonResponse({"status": "ok"})
 
 @api_view(['POST'])
-def logar(request):
+def login(request):
     email = request.data.get("email")
     password = request.data.get("password")
 
@@ -90,3 +88,7 @@ def register(request):
             "phone": str(user.phone)
         }
     }, status=status.HTTP_201_CREATED)
+
+
+def dashboard(request):
+    return JsonResponse
