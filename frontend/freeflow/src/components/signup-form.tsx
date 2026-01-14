@@ -23,6 +23,8 @@ export function SignupForm({
     const [phone, setPhone] = useState<string>("")
     const [passwordError, setPasswordError] = useState<boolean>(false)
     const [confirmPasswordError, setConfirmPasswordError] = useState<boolean>(false)
+    const [firstName, setFirstName] = useState<string>("")
+    const [lastName, setLastName] = useState<string>("")
 
     function validatePassword(value: string) {
         setPasswordError(value.length < 8)
@@ -57,6 +59,8 @@ export function SignupForm({
                     email,
                     password,
                     phone,
+                    firstName,
+                    lastName
                 }),
             })
 
@@ -66,6 +70,8 @@ export function SignupForm({
                 setPassword("")
                 setConfirmPassword("")
                 setPhone("")
+                setFirstName("")
+                setLastName("")
             }
         } catch (error) {
             alert(
@@ -85,10 +91,28 @@ export function SignupForm({
                         autoComplete="off"
                         onSubmit={handleRegister}
                     >
+                        {/* Nome e sobrenome */}
                         <FieldGroup>
                             <div className="flex flex-col items-center gap-2 text-center">
                                 <h1 className="text-2xl font-bold">Crie sua conta</h1>
                             </div>
+                            <Field>
+                                <FieldLabel>Nome</FieldLabel>
+                                <Input
+                                    type="first_name"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    required
+                                />
+                                <FieldLabel>Sobrenome</FieldLabel>
+                                <Input
+                                    type="last_name"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    required
+                                />
+                            </Field>
+
 
                             {/* EMAIL */}
                             <Field>

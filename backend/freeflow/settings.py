@@ -1,6 +1,9 @@
 from pathlib import Path
 import os
-import dj_database_url 
+from dotenv import load_dotenv
+from urllib.parse import urlparse, parse_qsl
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -70,10 +73,18 @@ WSGI_APPLICATION = 'freeflow.wsgi.application'
 
 
 
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL", "postgresql://gabrielbbrito1:5WtZYLkil6PSwnMAuurLSRZn9y1Dt8tK@dpg-d4rphdkhg0os73d5ol2g-a.virginia-postgres.render.com/freeflow_95sq")
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
+        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+    }
 }
 
 # Password validation
