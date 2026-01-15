@@ -50,9 +50,10 @@ def login(request):
 
     if not email or not password:
         return Response({"error": "Email e senha são obrigatórios"}, status=status.HTTP_400_BAD_REQUEST)
-
+    
     user = authenticate(request, email=email, password=password)
     if user is None:
+        print("Email ou senha inválidos")
         return Response({"error": "Email ou senha inválidos"}, status=status.HTTP_401_UNAUTHORIZED)
 
     user.last_login = timezone.now()
@@ -73,6 +74,7 @@ def login(request):
     })
 
 
+@permission_classes([AllowAny])
 @api_view(['POST'])
 def register(request):
     first_name = request.data.get("firstName")
