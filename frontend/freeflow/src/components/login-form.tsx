@@ -21,12 +21,17 @@ export function LoginForm({
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [error, setError] = useState<string>("")
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const navigate = useNavigate()
 
     async function handleLogin(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
+
+        if (isLoading) return
+
         setError("")
+        setIsLoading(true)
 
         try {
             const response = await fetch("http://127.0.0.1:8000/auth/login/", {
@@ -36,19 +41,23 @@ export function LoginForm({
                 },
                 body: JSON.stringify({ email, password }),
             })
+
             if (!response.ok) {
                 setError("Email ou senha incorretos")
                 return
             }
 
             const data = await response.json()
-            // 🔹 Salva tokens corretamente
+
             localStorage.setItem("accessToken", data.access)
             localStorage.setItem("refreshToken", data.refresh)
+
             navigate("/dashboard")
 
         } catch {
             setError("Erro ao conectar com o servidor")
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -56,8 +65,7 @@ export function LoginForm({
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
                 <CardContent className="grid md:grid-cols-2">
-                    <form onSubmit={handleLogin} className="p-6 space-y-4">
-
+                    <form onSubmit={handleLogin} className={cn("p-6 space-y-4")}>
                         <FieldGroup>
                             <h1 className="text-2xl font-bold text-center">Login</h1>
 
@@ -68,6 +76,7 @@ export function LoginForm({
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
+                                    disabled={isLoading}
                                 />
                             </Field>
 
@@ -78,6 +87,7 @@ export function LoginForm({
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
+                                    disabled={isLoading}
                                 />
                             </Field>
 
@@ -87,8 +97,11 @@ export function LoginForm({
                                 </FieldDescription>
                             )}
 
-                            <Button type="submit" className="w-full">
-                                Login
+                            <Button type="submit" className="w-full" disabled={isLoading}>
+                                {isLoading && (
+                                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                )}
+                                {isLoading ? "Carregando..." : "Login"}
                             </Button>
 
                             <FieldSeparator>Ou faça login com </FieldSeparator>

@@ -42,6 +42,7 @@ class OrderViewSet(ModelViewSet):
 def health_check(request):
     return JsonResponse({"status": "ok"})
 
+@permission_classes([AllowAny])
 @api_view(['POST'])
 def login(request):
     email = request.data.get("email")
