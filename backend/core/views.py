@@ -61,6 +61,7 @@ def login(request):
 
 
     refresh = RefreshToken.for_user(user)
+    print(user.id, user.email, user.first_name, user.last_name, user.phone, user.access, user.refresh)
     return Response({
         "refresh": str(refresh),
         "access": str(refresh.access_token),

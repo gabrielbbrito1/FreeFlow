@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import logo from "../assets/freeflow_logo.png"
 import React, { useState, type FormEvent } from "react"
+import { useNavigate } from "react-router-dom"
 
 export function SignupForm({
     className,
@@ -29,6 +30,8 @@ export function SignupForm({
     const [phoneError, setPhoneError] = useState<boolean>(false)
     const [firstNameError, setFirstNameError] = useState<boolean>(false)
     const [lastNameError, setLastNameError] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const navigate = useNavigate()
 
     function formatPhone(value: string): string {
         // Remove tudo que não for número
@@ -54,9 +57,16 @@ export function SignupForm({
     function validateConfirmPassword(value: string) {
         setConfirmPasswordError(value !== password)
     }
-    function validateEmail(value: string) {
-        setEmailError(value.includes("@"))
+    function validateEmail(email: string) {
+        if (!email) {
+            setEmailError(false);
+            return;
+        }
+    
+        const emailPattern = /^\S+@\S+\.\S+$/;
+        setEmailError(!emailPattern.test(email));
     }
+   
     function validatePhone(value: string) {
         const numbers = value.replace(/\D/g, "")
         setPhoneError(numbers.length < 10)
@@ -80,6 +90,26 @@ export function SignupForm({
             setConfirmPasswordError(true)
             return
         }
+        if (!email) {
+            setEmailError(true)
+            return
+        }
+        if (!phone) {
+            setPhoneError(true)
+            return
+        }
+        if (!firstName) {
+            setFirstNameError(true)
+            return
+        }
+        if (!lastName) {
+            setLastNameError(true)
+            return
+        }
+        if (emailError || passwordError || confirmPasswordError || phoneError || firstNameError || lastNameError) {
+            return
+        }
+        console.log(email, password, confirmPassword, phone, firstName, lastName)
 
         const url = "http://127.0.0.1:8000/auth/register/"
         const phoneClean = phone.replace(/\D/g, "")
@@ -99,6 +129,8 @@ export function SignupForm({
                 }),
             })
 
+            setIsLoading(true)
+
             if (response.ok) {
                 alert("Registro criado com sucesso!")
                 setEmail("")
@@ -107,9 +139,11 @@ export function SignupForm({
                 setPhone("")
                 setFirstName("")
                 setLastName("")
+                navigate("/")                
             }
             if (!response.ok) {
                 const data = await response.json()
+                alert(data.error)
 
                 if (data.password) {
                     setPasswordError(true)
@@ -141,6 +175,9 @@ export function SignupForm({
                 "Erro ao registrar usuário:" +
                 (error instanceof Error ? " " + error.message : "")
             )
+        }
+        finally {
+            setIsLoading(false)
         }
     }
 
@@ -209,6 +246,7 @@ export function SignupForm({
                                     }}
                                     onBlur={() => validatePhone(phone)}
                                     placeholder="(11) 91234-5678"
+                                    maxLength={15}
                                     className={
                                         phoneError
                                             ? "border-red-500 focus-visible:ring-red-500"
@@ -297,7 +335,12 @@ export function SignupForm({
                             </Field>
 
                             <Field>
-                                <Button type="submit">Criar conta</Button>
+                                <Button type="submit" className="w-full" disabled={isLoading}>
+                                    {isLoading && (
+                                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                    )}
+                                    {isLoading ? "Carregando..." : "Criar conta"}
+                                </Button>
                             </Field>
 
                             <FieldSeparator>Ou continue com</FieldSeparator>

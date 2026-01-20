@@ -16,6 +16,8 @@ import {
 import { useEffect, useState } from "react"
 
 type User = {
+    first_name: string
+    last_name: string
     id: string
     email: string
     phone: string
@@ -31,11 +33,12 @@ function Dashboard() {
 
             if (!token) return
 
-            const response = await fetch("http://127.0.0.1:8000/core/get_user_data/", {
+            const response = await fetch("http://127.0.0.1:8000/user/get_user_data", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
+                    "Accept": "application/json",
                 },
             })
 
@@ -44,6 +47,7 @@ function Dashboard() {
             if (response.ok) {
                 const data = await response.json()
                 setUser(data)
+                console.log(data)
             } else {
                 console.error('Erro ao buscar dados do usuário')
             }
@@ -78,6 +82,8 @@ function Dashboard() {
                                                 <p>id: {user.id}</p>
                                                 <p>email: {user.email}</p>
                                                 <p>phone: {user.phone}</p>
+                                                <p>first_name: {user.first_name}</p>
+                                                <p>last_name: {user.last_name}</p>
                                             </div>
                                         ) : (
                                             <p>dados.</p>
