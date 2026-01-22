@@ -27,16 +27,37 @@ class UserViewSet(ModelViewSet):
 class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Customer.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 # 🔹 CRUD completo de Products
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Product.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 # 🔹 CRUD completo de Orders
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 def health_check(request):
@@ -61,7 +82,7 @@ def login(request):
 
 
     refresh = RefreshToken.for_user(user)
-    print(user.id, user.email, user.first_name, user.last_name, user.phone, user.access, user.refresh)
+    print(user.id, user.email, user.first_name, user.last_name, user.phone, str(refresh), str(refresh.access_token))
     return Response({
         "refresh": str(refresh),
         "access": str(refresh.access_token),
@@ -71,6 +92,7 @@ def login(request):
             "first_name": user.first_name,
             "last_name": user.last_name,
             "phone": str(user.phone),
+            'access': str(refresh.access_token)
         }
     })
 
@@ -108,7 +130,7 @@ def register(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def dashboard(request):
-    return JsonResponse
+    return JsonResponse({"message": "Dashboard endpoint"})
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
