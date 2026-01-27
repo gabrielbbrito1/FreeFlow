@@ -25,7 +25,6 @@ class UserViewSet(ModelViewSet):
 
 # 🔹 CRUD completo de Customers
 class CustomerViewSet(ModelViewSet):
-    queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = [IsAuthenticated]
 
@@ -37,7 +36,6 @@ class CustomerViewSet(ModelViewSet):
 
 # 🔹 CRUD completo de Products
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
 
@@ -49,7 +47,6 @@ class ProductViewSet(ModelViewSet):
 
 # 🔹 CRUD completo de Orders
 class OrderViewSet(ModelViewSet):
-    queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 

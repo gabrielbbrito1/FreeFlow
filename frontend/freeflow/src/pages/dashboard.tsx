@@ -2,11 +2,12 @@ import { AppSidebar } from "@/components/app-sidebar"
 import {
     Breadcrumb,
     BreadcrumbItem,
-    BreadcrumbLink,
+    // BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbPage,
-    BreadcrumbSeparator,
+    // BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import {
     SidebarInset,
@@ -49,7 +50,7 @@ function Dashboard() {
                 setUser(data)
                 console.log(data)
             } else {
-                console.error('Erro ao buscar dados do usuário')
+                console.error('Erro ao buscar dados do usuário', response.statusText)
             }
         }
 
@@ -70,24 +71,14 @@ function Dashboard() {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">
-                                        Building Your Application
-                                    </BreadcrumbLink>
                                 </BreadcrumbItem>
-                                <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem>
                                     <BreadcrumbPage>
                                         {user ? (
                                             <div>
-                                                <p>id: {user.id}</p>
-                                                <p>email: {user.email}</p>
-                                                <p>phone: {user.phone}</p>
-                                                <p>first_name: {user.first_name}</p>
-                                                <p>last_name: {user.last_name}</p>
+                                                <p>Bem vindo, {user.first_name} {user.last_name}</p>
                                             </div>
-                                        ) : (
-                                            <p>dados.</p>
-                                        )}
+                                        ) : <p>Carregando...</p>}
                                     </BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
@@ -96,7 +87,15 @@ function Dashboard() {
                 </header>
                 <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
                     <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                        <div className="bg-muted/50 aspect-video rounded-xl" />
+                        <div className="bg-muted/50 aspect-video rounded-xl">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>
+                                        <h2>Dashboard</h2>
+                                    </CardTitle>
+                                </CardHeader>
+                            </Card>
+                        </div>
                         <div className="bg-muted/50 aspect-video rounded-xl" />
                         <div className="bg-muted/50 aspect-video rounded-xl" />
                     </div>
